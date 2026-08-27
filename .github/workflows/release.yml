@@ -43,3 +43,15 @@ jobs:
         env:
           GPG_FINGERPRINT: ${{ steps.import_gpg.outputs.fingerprint }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install spacectl
+        uses: spacelift-io/setup-spacectl@main
+      - name: Publish version to the Spacelift provider registry
+        env:
+          # Must match the key registered via `spacectl provider add-gpg-key`.
+          GPG_KEY_ID: ${{ steps.import_gpg.outputs.keyid }}
+          SPACELIFT_API_KEY_ENDPOINT: https://zenchef-github.app.spacelift.io
+          SPACELIFT_API_KEY_ID: ${{ secrets.SPACELIFT_API_KEY_ID }}
+          SPACELIFT_API_KEY_SECRET: ${{ secrets.SPACELIFT_API_KEY_SECRET }}
+        run: |
+          version_id=$(spacectl provider create-version --type mailgun --protocols 6.0 --quiet)
+          spacectl provider publish-version --version "$version_id"
