@@ -10,7 +10,7 @@ import (
 	"github.com/wgebis/terraform-provider-mailgun/internal/framework"
 )
 
-const providerAddress = "registry.terraform.io/wgebis/mailgun"
+const providerAddress = "registry.terraform.io/zenchef/mailgun"
 
 func main() {
 	var debug bool
